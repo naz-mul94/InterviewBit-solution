@@ -1,43 +1,36 @@
- double getMax(vector<int> arr, int n) 
-{ 
-    int max = INT_MIN; 
-    for (int i = 0; i < n; i++) 
-        if (arr[i] > max) 
-            max = arr[i]; 
-    return max; 
-} 
-int calculate(vector<int> C, int mid)
+int min_painter(vector<int> &C, long long int mid)
 {
-    int sum=0,no=1;
+    int no=1;
+    long long int sum=0;
     for(int i=0;i<C.size();i++)
     {
         sum+=C[i];
         if(sum>mid)
         {
-            sum=C[i];no++;
+            no++;
+            sum=C[i];
         }
     }
     return no;
 }
 int Solution::paint(int A, int B, vector<int> &C) {
-    //sort(C.begin(),C.end());
-    int len=C.size(), lo = getMax(C,len);
-    int sum=0, hi;
-    for(int i=0;i<len;i++)sum+=C[i];
-    hi=sum;
-    int no_painter;
-    while(lo<hi)
+    long long int end=0, start=C[0];
+    int n=C.size();
+    for(int i=0;i<n;i++)
     {
-        int mid=(lo+hi)/2;
-        no_painter=calculate(C,mid);
-        if(no_painter<=A)
-        {
-            hi=mid;
-        }
-        else
-        {
-            lo=mid+1;
-        }
+        if(C[i]>start)
+        start=C[i];
+        end+=C[i];
     }
-    return (int)((lo * (long long) B) % 10000003);
+    long long int mid;
+    while(start<end)
+    {
+        mid=start+(end-start)/2;
+        if(A<min_painter(C, mid))
+        start=mid+1;
+        else
+        end=mid;
+        
+    }
+    return (start+end)/2*B%10000003;
 }
