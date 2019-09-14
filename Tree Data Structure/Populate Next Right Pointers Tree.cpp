@@ -32,3 +32,25 @@ void Solution::connect(TreeLinkNode* A) {
         }
     }
 }
+###########################             Solution 2       ###################################
+void Solution::connect(TreeLinkNode* A) {
+    if(A==NULL)return ;
+    queue<TreeLinkNode* > current, processed;
+    current.push(A);
+    
+    while(!current.empty())
+    {
+        TreeLinkNode * temp=current.front();
+        current.pop();
+        if(!current.empty())
+        temp->next=current.front();
+        if(temp->left)
+        processed.push(temp->left);
+        if(temp->right)
+        processed.push(temp->right);
+        if(current.empty())
+        {
+            swap(current, processed);
+        }
+    }
+}
