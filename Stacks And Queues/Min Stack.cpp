@@ -1,47 +1,38 @@
 stack<int> st;
-stack<int> minSt;
-
+stack<int> st_min;
 MinStack::MinStack() {
-    while(!st.empty()){
-        st.pop();
-    }
-    while(!minSt.empty()){
-        minSt.pop();
-    }
+    while(!st.empty())
+    st.pop();
+    while(!st_min.empty())
+    st_min.pop();
 }
 
 void MinStack::push(int x) {
     st.push(x);
-    if(minSt.size() == 0){
-        minSt.push(x);
-    }
-    else{
-        if(x <= minSt.top()){
-            minSt.push(x);
-        }
-        else{
-            minSt.push(minSt.top());
-        }
+    if(st_min.empty())st_min.push(x);
+    else
+    {
+        if(x<=st_min.top())st_min.push(x);
     }
 }
 
 void MinStack::pop() {
-    if(st.size() != 0){
+    if(!st.empty())
+    {
+        int x=st.top();
         st.pop();
-        minSt.pop();
+        if(x==st_min.top())st_min.pop();
     }
+    
 }
 
 int MinStack::top() {
-    if(st.size() == 0){
-        return -1;
-    }
+    if(st.empty())return -1;
     return st.top();
 }
 
 int MinStack::getMin() {
-    if(minSt.size() == 0){
-        return -1;
-    }
-    return minSt.top();
+    if(st.empty())return -1;
+    return st_min.top();
 }
+
