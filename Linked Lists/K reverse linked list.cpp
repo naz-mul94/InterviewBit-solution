@@ -47,3 +47,28 @@ ListNode* Solution::reverseList(ListNode* A, int B) {
     }
     return set_head;
 }
+########################################## method 2######################################################
+ListNode* Solution::reverseList(ListNode* A, int B) {
+    if(!A)return A;
+    ListNode *head1;
+    ListNode *newHead=new ListNode(0);
+    newHead->next=A;
+    ListNode* temp=A;
+    stack<int> bucket;
+    while(temp)
+    {
+        head1=temp;
+        for(int i=0;i<B;i++)
+        {
+            bucket.push(temp->val);
+            temp=temp->next;
+        }
+        while(!bucket.empty())
+        {
+            head1->val=bucket.top();
+            bucket.pop();
+            head1=head1->next;
+        }
+    }
+    return newHead->next;
+}
