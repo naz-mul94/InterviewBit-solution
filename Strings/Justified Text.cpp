@@ -1,58 +1,67 @@
 vector<string> Solution::fullJustify(vector<string> &A, int B) {
-    vector<string> result;
-    short int k = 0, ls = 0;
-    for (short int i = 0; i<A.size(); i+=k)
+    int n=A.size();
+    vector<string> ans;
+    int noChar=0, noSpace=0;
+    int i=0, j;
+    for(;i<n;)
     {
-        /*string line = "";
-        short int start = i;
-        bool flag = false;*/
-        
-        k = ls = 0;
-        while (i+k<A.size() && ls + k + A[i+k].size() <= B)
+        noChar=0;noSpace=0;
+        string temp="";
+        for(j=i;j<n;j++)
         {
-            ls += A[i+k].size();
-            ++k;
-        }
-        string tmp = A[i];
-        for (int j = 0; j < k - 1; j++) {
-            if (i + k >= A.size()) tmp += " ";
-            else tmp += string((B - ls) / (k - 1) + (j < (B - ls) % (k - 1)), ' ');
-            tmp += A[i+j+1];
-        }
-        tmp += string(B - tmp.size(), ' ');
-        
-        /*if (i+k==A.size())
-        {
-            flag = true;
-            --i;
-        }
-            
-        short int noOfGaps = i+k-1 - start; //auto noOfWords = (i+1)-start; auto noOfGaps = noOfWords-1; 
-        short int spaces = B - ls;
-        //int extraSpaces = spaces%noOfGaps;
-        //int evenSpaces = spaces/noOfGaps;
-        
-        for (short int j = start; j <= i+k; ++j)
-        {
-            while (line.length() != B)
+            if(noChar+noSpace+A[j].size()<=B)
             {
-                line += A[j];
-                if (!flag) //middle lines
-                {
-                    if (j==start)
-                        line += string((spaces/noOfGaps)+(spaces%noOfGaps), ' ');
-                    else if (line.length() != B)
-                        line += string((spaces/noOfGaps), ' ');
-                }
-                else
-                {
-                    line += " ";
-                    if (j==i+k)
-                        line += string(B-line.length(), ' ');
-                }
+                noChar+=A[j].size();
+                noSpace++;
             }
-        }*/
-        result.emplace_back(tmp);
+            else{
+             break;
+            }
+            
+        }
+        noSpace--;
+        if(j==n)
+        {//cout<<B<<" "<<noSpace<<" "<<noChar<<endl;
+            temp+=A[i];
+            for(j=0;j<noSpace;j++)
+            {
+                
+                temp+=string(1, ' ');
+                temp+=A[i+j+1];
+                //cout<<temp<<endl;
+            }
+            
+            temp+=string(B - noSpace - noChar, ' ');
+
+        }
+        else if(noSpace==0)
+        {
+            temp+=A[i];
+            temp+=string(B-noChar, ' ');
+        }
+        else
+        {
+            temp+=A[i];
+            int noPadding=(B- noChar- noSpace)/noSpace;
+            int remain=(B- noChar- noSpace)%noSpace;
+            //if(remain--)temp+=string(1, ' ');
+            for(j=0;j<noSpace;j++)
+            {
+                temp+=string(noPadding+1, ' ');
+                if(remain)
+                {
+                    temp+=string(1, ' ');
+                    remain--;
+                }    
+                temp+=A[i+j+1];
+                //cout<<temp<<endl;
+                
+            }
+        }
+        //cout<<temp<<endl;
+        ans.push_back(temp);
+        i+=noSpace+1;//if(i>=n)exit(0);
+        
     }
-    return result;
+    return ans;
 }
