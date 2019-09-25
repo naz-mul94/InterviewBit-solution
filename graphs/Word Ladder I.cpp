@@ -1,47 +1,30 @@
-bool compare1(string A, string B)
-{
-    int count=0;
-    for(int i=0;i<A.size();i++)
-    {
-        if(A[i]!=B[i])count++;
-        if (count > 1) return false; 
-    } 
-    return count == 1 ? true : false; 
-}
-void bfs(int &ans, string start, string end, vector<string> &dict)
-{
-    queue<pair<string, int>> que;
-    que.push({start, 1});
+int Solution::solve(string A, string B, vector<string> &C) {
+    unordered_map<string, int> distance;
+    unordered_set<string> dict(C.begin(), C.end());
+    distance[A]=1;
+    queue<string> que;
+    que.push(A);
     while(!que.empty())
     {
-        string st=que.front().first;
-        int len=que.front().second;
+        string temp=que.front();
         que.pop();
-        if(st.compare( end)==0)
+        if(temp.compare(B)==0)
+        break;
+        for(int i=0;i<temp.size();i++)
         {
-            if(len<ans)
-            ans=len;
-        }
-        for(int i=0;i<dict.size();i++)
-        {
-            if(compare1(st, dict[i]))
+            for(int j=0;j<26;j++)
             {
-                que.push({dict[i], len+1});
-                dict.erase(dict.begin()+i);
+                string word=temp;
+                word[i]=j+'a';
+                if(dict.find(word)!=dict.end()&&distance.find(word)==distance.end())
+                {
+                    que.push(word);
+                    distance[word]=distance[temp]+1;
+                }
             }
+            
         }
     }
-    
-}
-int Solution::ladderLength(string start, string end, vector<string> &dictV) {
-    //cout<<start<<"  "<<end<<"   "<<dictV.size()<<endl;
-    //for(int i=0;i<dictV.size();i++)
-    //cout<<dictV[i]<<endl;
-    //if(compare(start, end)==0&&dictV.size()==0)return 1;
-    if(compare(start, end)==0)return 1;
-    int ans=INT_MAX;
-    bfs(ans, start, end, dictV);
-    if(ans==INT_MAX)
-    return 0;
-    return ans;
+    if(distance.find(B)==distance.end())return 0;
+    return distance[B];
 }
