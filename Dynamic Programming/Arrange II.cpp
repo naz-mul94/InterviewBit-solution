@@ -24,3 +24,4 @@ Let's loot at the all possibilities.
 ----------------
 10. (BBWB)(W)(B)
 */
+[image](https://github.com/naz-mul94/InterviewBit-solution/blob/master/arrangeII.jpg)
