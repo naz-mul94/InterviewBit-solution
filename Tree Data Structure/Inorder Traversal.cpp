@@ -7,35 +7,26 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-vector<int> Solution::inorderTraversal(TreeNode* A) {
+// This is best solution using stack. Here we are not changing the tree itself. And we are not using extra memory also
+vector<int> Solution::inorderTraversal(TreeNode* A) 
+{
     vector<int> ans;
-    stack<TreeNode *> bucket;
-    if(A==NULL)return ans;
-    bucket.push(A);
-    while(!bucket.empty())
+    if(!A)return ans;
+    stack<TreeNode*> s;
+    TreeNode* node=A;
+    while(!s.empty()||node)
     {
-        TreeNode * temp=bucket.top();
-        
-        if(temp)
+        if(node)
         {
-            
-            
-            
-            if(temp->left)
-            {
-                bucket.push(temp->left);
-                temp->left=NULL;
-            }
-            else 
-            {
-                
-                ans.push_back(temp->val);
-                bucket.pop();
-                if(temp->right)
-                bucket.push(temp->right);
-                
-            }
-            
+            s.push(node);
+            node=node->left;
+        }
+        else
+        {
+            TreeNode* temp=s.top();
+            s.pop();
+            ans.push_back(temp->val);
+            node=temp->right;
         }
     }
     return ans;
