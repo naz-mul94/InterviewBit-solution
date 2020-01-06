@@ -31,3 +31,44 @@ vector<int> Solution::inorderTraversal(TreeNode* A)
     }
     return ans;
 }
+//Morris algorithm implementation
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+vector<int> Solution::inorderTraversal(TreeNode* A) 
+{
+    vector<int> ans;
+    TreeNode *current=A;
+    while(current)
+    {
+        if(!current->left)
+        {
+            ans.push_back(current->val);
+            current=current->right;
+        }
+        else
+        {
+            TreeNode* predecessor=current->left;
+            while(predecessor->right&&predecessor->right!=current)
+            predecessor=predecessor->right;
+            if(!predecessor->right)
+            {
+                predecessor->right=current;
+                current=current->left;
+            }
+            else
+            {
+                predecessor->right=NULL;
+                ans.push_back(current->val);
+                current=current->right;
+            }
+        }
+    }
+    return ans;
+}
