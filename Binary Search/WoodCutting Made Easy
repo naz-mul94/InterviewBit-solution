@@ -1,0 +1,31 @@
+int Solution::solve(vector<int> &A, int B) {
+    int loHgt=1, hiHgt =0, lo=0, hi, maxHi = 0;
+    for (int i =0;i<A.size();i++)
+    {
+        if(A[i]>hiHgt)hiHgt = A[i];
+    }
+    hi = hiHgt;
+    while(hi>=lo)
+    {
+        int mid = lo+(hi - lo)/2, total =0;
+        for(int i = 0;i<A.size();i++)
+        {
+            if(A[i]>mid)
+            {
+                total+=(A[i]-mid);
+                if (total> B)break;
+            }
+
+        }
+        if(total >=B)
+        {
+            if(maxHi< mid)
+            {
+                maxHi = mid;
+            }
+            lo = mid + 1;
+        }
+        else hi = mid -1;
+    }
+    return maxHi;
+}
