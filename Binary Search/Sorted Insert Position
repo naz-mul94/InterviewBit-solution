@@ -1,0 +1,31 @@
+int Solution::searchInsert(vector<int> &A, int B) {
+   int len=A.size(), up=len-1,lo=0;
+    while(lo<up)
+    {
+        int mid=(lo+up)/2;
+        if(A[mid]>=B)
+        {
+            up=mid;
+        }
+        else
+        {
+            lo=mid+1;
+        }
+    }
+    //cout<<B<<"----"<<lo<<"---"<<A[lo]<<endl;
+    if(B==A[lo])
+    {
+        return lo;
+    }
+    up=upper_bound(A.begin(),A.end(),B)-A.begin();
+    if(up==0)
+    {
+        return 0;
+    }
+    else if(up==A.size())
+    {
+        return len;
+    }
+    else return (up);
+}
+
