@@ -1,0 +1,52 @@
+int getmax(vector<int> A)
+{
+    int max=INT_MIN;
+    for(int i=0;i<A.size();i++)
+    {
+        if(max<A[i])
+        {
+            max=A[i];
+        }
+    }
+    return max;
+}
+int get_st(vector<int> A, int max_page)
+{
+    int sum=0,no=1;
+    for(int i=0;i<A.size();i++)
+    {
+        sum+=A[i];
+        if(sum>max_page)
+        {
+            sum=A[i];
+            no++;
+        }
+        
+    }
+    return no;
+}
+int Solution::books(vector<int> &A, int B) {
+    int hi,lo,len=A.size(),sum=0;
+    if(A.size()<B)return -1;
+    for(int i=0;i<len;i++)
+    {
+        sum+=A[i];
+    }
+    hi=sum;
+    lo=getmax(A);
+    int no_st;
+    while(lo<hi)
+    {
+        int mid=(hi+lo)/2;
+        no_st=get_st(A,mid);
+        if(no_st<=B)
+        {
+            hi=mid;
+        }
+        else
+        {
+            lo=mid+1;
+        }
+    }
+    return lo;
+}
