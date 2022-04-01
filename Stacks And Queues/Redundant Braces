@@ -1,0 +1,45 @@
+int Solution::braces(string A) {
+    stack<char> ans;
+    stack<int> st;
+    int res=0;
+    for(int i=0;i<A.size();i++)
+    {
+        if(A[i]=='(')
+        {
+            ans.push(A[i]);
+        }
+        else if(A[i]==')')
+        {
+            if(!ans.empty())
+            {
+                if(!st.empty())
+                {
+                    st.pop();
+                    ans.pop();
+                }
+                else return 1;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        else 
+        {
+            while(A[i]!='('&&A[i]!=')'&&i<A.size())
+            {
+                if((A[i]=='+'||A[i]=='%'||A[i]=='*'||A[i]=='/'||A[i]=='-')&&!ans.empty())
+                    st.push(1);
+                i++;
+            }
+            if(i==A.size())
+                break;
+            else
+            i--;
+        }
+    }
+    if(ans.empty())
+    return 0;
+    else
+        return 1;
+}
