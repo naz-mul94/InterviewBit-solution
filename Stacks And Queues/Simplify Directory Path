@@ -1,0 +1,54 @@
+string Solution::simplifyPath(string A) {
+    stack<string> ans;
+    string str="";
+    int i=0, flag=0;
+    for(;i<A.size();)
+    {
+        if(A[i]=='/')
+        {
+            int j=i+1;//cout<<j<<endl;if(flag==1)break;
+            while(A[j]!='/'&&j<A.size())
+            {
+                str+=A[j];
+                j++;
+            }
+            //cout<<str<<"    "<<j<<endl;
+            if(j==i+1&&j<A.size())
+            {
+                i=j;
+                str.clear();
+                continue;
+            }
+            else if(!str.compare(".."))
+            {//cout<<str<<"    "<<j<<endl;
+                if(!ans.empty())
+                ans.pop();
+                str.clear();
+                i=j;
+            }
+            else if(!str.compare("."))
+            {
+                i=j;
+                str.clear();
+                continue;
+            }
+            else
+            {
+                i=j;
+                if(!str.empty())
+                ans.push("/"+str);
+                str.clear();//cout<<ans.top()<<"    "<<j<<endl;
+            }
+        }flag=1;
+    }
+    str.clear();
+    while(!ans.empty())
+    {
+        str=ans.top()+str;
+        ans.pop();
+    }
+    if(str.empty())
+        str+='/';
+    return str;
+    
+}
