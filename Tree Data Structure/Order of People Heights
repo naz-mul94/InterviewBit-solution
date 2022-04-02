@@ -1,0 +1,39 @@
+void insert(vector<int> &ans, int height, int no, unordered_map<int, int> infront)
+{
+    int count=0, i;
+    if(i==1)
+    {
+        ans[(infront.find(height))->second]=height;
+        return;
+    }
+    for(i=0;i<ans.size();i++)
+    {
+        if((infront.find(height))->second==count)
+        {
+            if(ans[i]==-1)
+            {
+                ans[i]=height;
+                break;
+            }
+            
+        }    
+        if(ans[i]==-1)
+        count++;
+        
+    }
+    
+}
+vector<int> Solution::order(vector<int> &A, vector<int> &B) {
+    unordered_map<int, int> infront;
+    vector<int> ans(A.size(), -1);
+    for(int i=0;i<A.size();i++)
+    {
+        infront[A[i]]=B[i];
+    }
+    sort(A.begin(), A.end());
+    for(int i=0;i<A.size();i++)
+    {
+        insert(ans, A[i], i+1, infront);
+    }
+    return ans;
+}
