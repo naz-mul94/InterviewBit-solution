@@ -55,3 +55,42 @@ int Solution::lca(TreeNode* A, int B, int C) {
     find(A, B, C, ans);
     return ans;
 }
+======================approach 2===================
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+bool find_key(TreeNode* A, int B, int C, int *ans)
+{
+    if(!A)return false;
+    bool left = find_key(A->left, B, C, ans);
+    bool right = find_key(A->right, B, C, ans);
+    bool cur=false;
+    if(A->val == B && A->val == C)
+    {
+        cur = true;
+        *ans = A->val;
+    }
+    else if(A->val == B || A->val == C)
+        cur = true;
+
+    if((left && right)||(left&&cur) || (right && cur))
+    {
+        *ans = A->val;
+    }
+    return (left||right||cur);
+} 
+int Solution::lca(TreeNode* A, int B, int C) {
+    if(!A)return -1;
+    int ans = -1;
+    find_key(A, B, C, &ans);
+    return ans;
+    
+ 
+}
