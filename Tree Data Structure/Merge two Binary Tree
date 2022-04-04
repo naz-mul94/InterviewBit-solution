@@ -1,0 +1,32 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+
+void merge(TreeNode* A, TreeNode* B)
+{
+    if(A && B)
+    {
+        A->val +=B->val;
+        if(A->left && B->left)
+        merge(A->left, B->left);
+        else if(B->left)
+        A->left = B->left;
+        if(A->right && B->right)
+        merge(A->right, B->right);
+        else if(B->right)
+        A->right = B->right;
+    }
+}
+TreeNode* Solution::solve(TreeNode* A, TreeNode* B) {
+    if(!A)return B;
+    if(!B)return A;
+    merge(A, B);
+    return A;
+}
