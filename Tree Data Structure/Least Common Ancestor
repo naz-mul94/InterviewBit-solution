@@ -1,0 +1,57 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+bool present(TreeNode *A, int C)
+ {
+     if(A)
+     {
+         if(A->val==C)
+         return true;
+         else
+         {
+             return (present(A->left, C)||present(A->right, C));
+         }
+     }
+     else 
+     return false;
+ }
+ bool find(TreeNode* A, int B, int C, int &ans)
+ { 
+     if(!A)return false;
+     bool x,y;
+     x=y=false;
+     if(A->val==B||A->val==C)
+     {
+         ans=A->val;
+         return true ;
+     }
+     else
+     {
+         if(present(A->left, B)&&present(A->right, C))
+         {
+             ans=A->val;
+             return true;
+         }
+         if(present(A->right, B)&&present(A->left, C))
+         {
+             ans=A->val;
+             return true;
+         }
+         if(!find(A->left, B, C, ans))
+         find(A->right, B, C, ans);
+     }
+    
+    
+ }
+int Solution::lca(TreeNode* A, int B, int C) {
+    int ans=-1;
+    if(!present(A,B)||!present(A,C))return -1;
+    find(A, B, C, ans);
+    return ans;
+}
