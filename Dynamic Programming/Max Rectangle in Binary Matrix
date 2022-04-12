@@ -1,0 +1,52 @@
+int LRA(vector<int> A) 
+{
+    int n=A.size();
+    if(n==0)return 0;
+    if(n==1)return A[0];
+    stack<int> st;
+    int ans=0, localMax=0, x,i;
+    for( i=0;i<n;)
+    {
+        if(st.empty() || A[i]>=A[st.top()])
+            st.push(i++);
+        else
+        {
+            
+            x=A[st.top()];
+            st.pop();
+            localMax=(st.empty())?x*i:(i-st.top()-1)*x;
+            ans=max(ans, localMax);
+        }
+    }
+    
+    while(!st.empty())
+    {
+        x=A[st.top()];
+        st.pop();
+        localMax=(st.empty())?x*i:(i-st.top()-1)*x;
+        ans=max(ans, localMax);
+    }
+    
+    return ans;
+}
+
+int Solution::maximalRectangle(vector<vector<int> > &A) 
+{
+    int row=A.size();
+    int col=A[0].size();
+    vector<int> arr(col);
+    int ans=0;
+    for(int i=0;i<col;i++)arr[i]=A[0][i];
+    ans=max(ans, LRA(arr));
+    for(int i=1;i<row;i++)
+    {
+        for(int j=0;j<col;j++)
+        {
+            if(A[i][j])arr[j]+=A[i][j];
+            else arr[j]=0;
+        }
+        ans=max(ans, LRA(arr));
+    }
+    //if(!ans)return -1;
+    return ans;
+}
