@@ -1,0 +1,51 @@
+#include<list>
+int maxDis;
+int node1;
+
+void bfs(list<int> adj[], int root, int no_node)
+{
+    int distance[no_node];
+    memset(distance, -1, sizeof(distance));
+    queue<int> que;
+    que.push(root);
+    distance[root]=0;
+    while(!que.empty())
+    {
+        int temp = que.front(); que.pop();
+        for(auto neigh:adj[temp])
+        {
+            if(distance[neigh]==-1)
+            que.push(neigh),distance[neigh]=distance[temp]+1;
+        }
+    }
+    for(int i=0;i<no_node;i++)
+    {
+        if(maxDis<distance[i])
+        {
+            maxDis=distance[i];
+            node1=i;
+        }
+    }
+}
+int Solution::solve(vector<int> &A) {
+    maxDis=0;
+   
+    if(A.size()<2)
+    return 0;
+    int root;
+     node1=root;
+    list<int> adj[A.size()];
+    for(int i=0;i<A.size();i++)
+    {
+        if(A[i]==-1)
+        {root=i; continue;}
+        int u=i;
+        int v=A[u];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    bfs(adj, root, A.size());
+    bfs(adj, node1, A.size());
+    return maxDis;
+
+}
